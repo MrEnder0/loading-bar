@@ -17,5 +17,6 @@ fn main() {
         thread::sleep(time::Duration::from_millis(time/100));
     }
 
+    println!("\rLoading {} (100%)", "=".repeat(5));
     thread::sleep(time::Duration::from_millis(100));
 }
