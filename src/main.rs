@@ -9,28 +9,11 @@ fn main() {
     let time: u64 = time.trim().parse().expect("Please type a number!");
 
 
-    print!("Loading ----- (0%");
+    print!("Loading ----- (0%)");
 
     while percent < 100 {
         percent += 1;
-        if percent == 100 {
-            println!("\rLoading ===== ({}%)\x1B[1A", percent);
-        }
-        else if percent > 80 {
-            println!("\rLoading ====- ({}%)\x1B[1A", percent);
-        }
-        else if percent > 60 {
-            println!("\rLoading ===-- ({}%)\x1B[1A", percent);
-        }
-        else if percent > 40 {
-            println!("\rLoading ==--- ({}%)\x1B[1A", percent);
-        }
-        else if percent > 20 {
-            println!("\rLoading =---- ({}%)\x1B[1A", percent);
-        }
-        else {
-            println!("\rLoading ----- ({}%)\x1B[1A", percent);
-        }
+        println!("\rLoading {}{} ({}%)\x1B[1A", "=".repeat((percent / 20).try_into().unwrap()), "-".repeat((5 - (percent / 20)).try_into().unwrap()), percent);
         thread::sleep(time::Duration::from_millis(time/100));
     }
 
