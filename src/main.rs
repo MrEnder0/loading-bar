@@ -16,4 +16,7 @@ fn main() {
         println!("\rLoading {}% \x1B[1A", percent);
         thread::sleep(time::Duration::from_millis(time/100));
     }
+
+    thread::sleep(time::Duration::from_millis(1000));
+    println!("Done!       ");
 }
