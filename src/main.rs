@@ -2,7 +2,7 @@ pub mod colors;
 
 use std::{thread, time, io};
 
-use crate::colors::{COLOR_RED, COLOR_RESET, COLOR_GREEN};
+use crate::colors::{COLOR_RED, COLOR_RESET, COLOR_GREEN, COLOR_CYAN};
 
 fn loading_bar(time: u64) {
     let mut percent: i32 = 0;
@@ -15,7 +15,7 @@ fn loading_bar(time: u64) {
         thread::sleep(time::Duration::from_millis(time/100));
     }
 
-    println!("\rLoading |{}{}{}| (100%)", COLOR_GREEN, "█".repeat(10), COLOR_RESET);
+    println!("\rLoading |{}{}{}| (100%)", COLOR_CYAN, "█".repeat(10), COLOR_RESET);
     thread::sleep(time::Duration::from_millis(100));
 }
 fn main() {
