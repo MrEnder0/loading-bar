@@ -1,8 +1,7 @@
 pub mod colors;
 
 use std::{thread, time, io};
-
-use crate::colors::{COLOR_RED, COLOR_RESET, COLOR_GREEN, COLOR_CYAN};
+use crate::colors::*;
 
 fn loading_bar(time: u64) {
     let mut percent: i32 = 0;
