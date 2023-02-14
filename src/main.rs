@@ -1,20 +1,21 @@
+pub mod colors;
+
 use std::{thread, time, io};
 
+use crate::colors::{COLOR_RED, COLOR_RESET, COLOR_GREEN};
+
 fn loading_bar(time: u64) {
-    let _color_red = "\x1B[31m";
-    let _color_green = "\x1B[32m";
-    let _color_reset = "\x1B[0m";
     let mut percent: i32 = 0;
 
-    print!("Loading |{}{}{}| (0%)", _color_red, "█".repeat(10), _color_reset);
+    print!("Loading |{}{}{}| (0%)", COLOR_RED, "█".repeat(10), COLOR_RESET);
 
     while percent < 100 {
         percent += 1;
-        println!("\rLoading |{}{}{}{}{}| ({}%)\x1B[1A", _color_green, "█".repeat((percent / 10) as usize), _color_red, "█".repeat((10 - (percent / 10)) as usize), _color_reset, percent);
+        println!("\rLoading |{}{}{}{}{}| ({}%)\x1B[1A", COLOR_GREEN, "█".repeat((percent / 10) as usize), COLOR_RED, "█".repeat((10 - (percent / 10)) as usize), COLOR_RESET, percent);
         thread::sleep(time::Duration::from_millis(time/100));
     }
 
-    println!("\rLoading |{}{}{}| (100%)", _color_green, "█".repeat(10), _color_reset);
+    println!("\rLoading |{}{}{}| (100%)", COLOR_GREEN, "█".repeat(10), COLOR_RESET);
     thread::sleep(time::Duration::from_millis(100));
 }
 fn main() {
