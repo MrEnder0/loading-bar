@@ -10,7 +10,7 @@ fn loading_bar(time: u64) {
 
     while percent < 100 {
         percent += 1;
-        println!("\rLoading |{}{}{}{}{}| ({}%)\x1B[1A", _color_green, "█".repeat((percent / 10).try_into().unwrap()), _color_red, "█".repeat((10 - (percent / 10)).try_into().unwrap()), _color_reset, percent);
+        println!("\rLoading |{}{}{}{}{}| ({}%)\x1B[1A", _color_green, "█".repeat((percent / 10) as usize), _color_red, "█".repeat((10 - (percent / 10)) as usize), _color_reset, percent);
         thread::sleep(time::Duration::from_millis(time/100));
     }
 
