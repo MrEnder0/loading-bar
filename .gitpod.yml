@@ -1,2 +1,12 @@
 image:
   file: .gitpod.Dockerfile
+ 
+tasks:
+  - name: Startup
+    command: cargo build
+    
+vscode:
+  extensions:
+    - rust-lang.rust-analyzer
+    - yzhang.markdown-all-in-one
+    - DavidAnson.vscode-markdownlint
