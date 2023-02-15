@@ -8,26 +8,29 @@ struct LoadingBar {
     title: String
 }
 
-
-fn progress_loading_bar(loading_bar: &mut LoadingBar, amount: i32) {
-    loading_bar.progress += amount
+trait LoadingBarMethods {
+    fn progress_loading_bar(&mut self, amount: i32);
+    fn show_loading_bar(&mut self);
 }
 
-fn show_loading_bar(loading_bar: &mut LoadingBar) {
-    match loading_bar.progress {
-        100 => println!("\r{} |{}{}{}| (Done {}✓{})", loading_bar.title, COLOR_GREEN, "█".repeat(10), COLOR_RESET, COLOR_GREEN, COLOR_RESET),
-        _ => println!("\r{} |{}{}{}{}{}| ({}%)\x1B[1A", loading_bar.title, COLOR_GREEN, "█".repeat((loading_bar.progress / 10) as usize), COLOR_RED, "█".repeat((10 - (loading_bar.progress / 10)) as usize), COLOR_RESET, loading_bar.progress),
+impl LoadingBarMethods for LoadingBar {
+    fn progress_loading_bar(&mut self, amount: i32) {
+        self.progress += amount
+    }
+
+    fn show_loading_bar(&mut self) {
+        match self.progress {
+            100 => println!("\r{} |{}{}{}| (Done {}✓{})", self.title, COLOR_GREEN, "█".repeat(10), COLOR_RESET, COLOR_GREEN, COLOR_RESET),
+            _ => println!("\r{} |{}{}{}{}{}| ({}%)\x1B[1A", self.title, COLOR_GREEN, "█".repeat((self.progress / 10) as usize), COLOR_RED, "█".repeat((10 - (self.progress / 10)) as usize), COLOR_RESET, self.progress),
+        }
     }
 }
 fn main() {
-    let mut progress_indicator = LoadingBar {
-        progress: 0,
-        title: "Loading".to_string()
-    };
+    let mut some_data_progress = LoadingBar{ progress: 0, title: "Loading".to_string() };
 
-    while progress_indicator.progress < 100 {
-        progress_loading_bar(&mut progress_indicator, 10);
-        show_loading_bar(&mut progress_indicator);
+    while some_data_progress.progress < 100 {
+        some_data_progress.progress_loading_bar(10);
+        some_data_progress.show_loading_bar();
         thread::sleep(time::Duration::from_millis(1000));
     }
     println!("");
