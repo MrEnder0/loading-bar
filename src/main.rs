@@ -24,9 +24,6 @@ fn main() {
 
     io::stdin().read_line(&mut time).expect("Failed to read line");
     let time: u64 = time.trim().parse().expect("Please type a number!");
-
-    //get current time in milliseconds
-    let now = time::SystemTime::now();
     
-    loading_bar(time as u128, now, "Loading");
+    loading_bar(time as u128, time::SystemTime::now(), "Loading");
 }
