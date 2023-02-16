@@ -12,7 +12,7 @@ trait LoadingBarMethods {
     fn progress_loading_bar(&mut self, amount: i32);
     fn set_loading_bar(&mut self, progress: i32);
     fn show_loading_bar(&mut self);
-    fn link_time_loading_bar(&mut self, time: u64);
+    fn loading_bar_link_timer(&mut self, time: u64);
 }
 
 impl LoadingBarMethods for LoadingBar {
@@ -31,7 +31,7 @@ impl LoadingBarMethods for LoadingBar {
         }
     }
 
-    fn link_time_loading_bar(&mut self, time: u64) {
+    fn loading_bar_link_timer(&mut self, time: u64) {
         let now = time::SystemTime::now();
         while self.progress < 100 {
             thread::sleep(time::Duration::from_millis(1 as u64));
@@ -45,5 +45,5 @@ impl LoadingBarMethods for LoadingBar {
 fn main() {
     let mut some_data_progress = LoadingBar{ progress: 0, title: "Loading".to_string() };
 
-    some_data_progress.link_time_loading_bar(10000);
+    some_data_progress.loading_bar_link_timer(10000);
 }
