@@ -9,18 +9,18 @@ struct LoadingBar {
 }
 
 trait LoadingBarMethods {
-    fn progress_loading_bar(&mut self, amount: i32);
-    fn set_loading_bar(&mut self, progress: i32);
+    fn move_progress(&mut self, amount: i32);
+    fn set_progress(&mut self, progress: i32);
     fn render(&mut self);
-    fn loading_bar_link_timer(&mut self, time: u64);
+    fn link_timer(&mut self, time: u64);
 }
 
 impl LoadingBarMethods for LoadingBar {
-    fn progress_loading_bar(&mut self, amount: i32) {
+    fn move_progress(&mut self, amount: i32) {
         self.progress += amount
     }
 
-    fn set_loading_bar(&mut self, progress: i32) {
+    fn set_progress(&mut self, progress: i32) {
         self.progress = progress
     }
 
@@ -31,7 +31,7 @@ impl LoadingBarMethods for LoadingBar {
         }
     }
 
-    fn loading_bar_link_timer(&mut self, time: u64) {
+    fn link_timer(&mut self, time: u64) {
         let now = time::SystemTime::now();
         while self.progress < 100 {
             thread::sleep(time::Duration::from_millis(1 as u64));
@@ -55,29 +55,33 @@ mod tests {
     #[test]
     fn time_linked_loadingbar() {
         let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
-        loading_bar.loading_bar_link_timer(1000);
+        loading_bar.link_timer(time::Duration::from_secs(1).as_millis() as u64);
         assert_eq!(loading_bar.progress, 100);
     }
 
     #[test]
     fn set_loadingbar() {
         let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
-        loading_bar.set_loading_bar(69);
+        loading_bar.set_progress(69);
         assert_eq!(loading_bar.progress, 69);
     }
 
     #[test]
     fn itterate_loadingbar() {
         let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
+        let mut rendered_frames = 0;
+
         while loading_bar.progress < 100 {
             thread::sleep(time::Duration::from_millis(10));
-            loading_bar.progress_loading_bar(1);
+            loading_bar.move_progress(1);
     
             //Only renders the updated version when it reached a % which is divisible by 5
             if loading_bar.progress % 5 == 0 {
                 loading_bar.render();
+                rendered_frames += 1;
             }
         }
         assert_eq!(loading_bar.progress, 100);
+        assert_eq!(rendered_frames, 20);
     }
 }
