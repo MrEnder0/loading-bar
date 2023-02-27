@@ -43,28 +43,41 @@ impl LoadingBarMethods for LoadingBar {
 }
 
 fn main() {
-    //Shows how to init a loading bar
-    let mut some_data_progress = LoadingBar{ progress: 0, title: "Loading".to_string() };
+    //Use loading bars here
+}
 
-    //Shows how to link a loading bar to a timer
-    some_data_progress.loading_bar_link_timer(10000);
+#[cfg(test)]
+mod tests {
+    use std::{thread, time::{self}};
 
-    thread::sleep(time::Duration::from_millis(2500));
+    use crate::{LoadingBar, LoadingBarMethods};
 
-    //Shows how to set the loading bar
-    some_data_progress.set_loading_bar(0);
-    println!("Reset the loading bar to {}%", some_data_progress.progress);
+    #[test]
+    fn time_linked_loadingbar() {
+        let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
+        loading_bar.loading_bar_link_timer(1000);
+        assert_eq!(loading_bar.progress, 100);
+    }
 
-    thread::sleep(time::Duration::from_millis(2500));
+    #[test]
+    fn set_loadingbar() {
+        let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
+        loading_bar.set_loading_bar(69);
+        assert_eq!(loading_bar.progress, 69);
+    }
 
-    //Shows how to iterate a loading bar in a loop
-    while some_data_progress.progress < 100 {
-        thread::sleep(time::Duration::from_millis(50));
-        some_data_progress.progress_loading_bar(1);
-
-        //Only renders the updated version when it reached a % which is divisible by 5
-        if some_data_progress.progress % 5 == 0 {
-            some_data_progress.render();
+    #[test]
+    fn itterate_loadingbar() {
+        let mut loading_bar = LoadingBar{ progress: 0, title: "Loading".to_string() };
+        while loading_bar.progress < 100 {
+            thread::sleep(time::Duration::from_millis(10));
+            loading_bar.progress_loading_bar(1);
+    
+            //Only renders the updated version when it reached a % which is divisible by 5
+            if loading_bar.progress % 5 == 0 {
+                loading_bar.render();
+            }
         }
+        assert_eq!(loading_bar.progress, 100);
     }
 }
