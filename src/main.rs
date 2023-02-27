@@ -26,8 +26,8 @@ impl LoadingBarMethods for LoadingBar {
 
     fn show_loading_bar(&mut self) {
         match self.progress {
-            100 => println!("\r{} |{}{}{}| (Done {}✓{})", self.title, COLOR_GREEN, "█".repeat(10), COLOR_RESET, COLOR_GREEN, COLOR_RESET),
-            _ => println!("\r{} |{}{}{}{}{}| ({}%)\x1B[1A", self.title, COLOR_GREEN, "█".repeat((self.progress / 10) as usize), COLOR_RED, "█".repeat((10 - (self.progress / 10)) as usize), COLOR_RESET, self.progress),
+            100 => println!("\r{title} |{green}{progress_filled}{reset}| (Done {green}✓{reset})", title = self.title, green = COLOR_GREEN, progress_filled = "█".repeat(10), reset = COLOR_RESET),
+            _ => println!("\r{title} |{green}{progress_filled}{red}{progress_empty}{reset}| ({progress}%)\x1B[1A", title = self.title, green = COLOR_GREEN, progress_filled = "█".repeat((self.progress / 10) as usize), red = COLOR_RED, progress_empty = "█".repeat((10 - (self.progress / 10)) as usize), reset = COLOR_RESET, progress = self.progress),
         }
     }
 
